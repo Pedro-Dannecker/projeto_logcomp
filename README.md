@@ -4,7 +4,7 @@ PROGRAM = { STATEMENT };
 
 BLOCK = "{", "\n", { STATEMENT }, "}";
 
-STATEMENT = ( λ | ASSIGNMENT | PRINT | IF | ID | FOR | VARDEC), "\n" ;
+STATEMENT = ( λ | ASSIGNMENT | PRINT | IF | FOR | VARDEC), "\n" ;
 
 VARDEC = "var", IDENTIFIER, TYPE, (λ | ("=", BOOLEAN_EXPRESSION));
 
@@ -28,7 +28,7 @@ EXPRESSION = TERM, { ("+" | "-" | "."), TERM } ;
 
 TERM = FACTOR, { ("*" | "/"), FACTOR } ;
 
-FACTOR = (("+" | "-" | "!"), FACTOR) | NUMBER | STRING | PLAYER_ACTIONS | ("(", BOOLEAN_EXPRESSION, ")") | IDENTIFIER | ("Scanln", "(", ")") ;
+FACTOR = (("+" | "-" | "!"), FACTOR) | NUMBER | STRING | ("(", BOOLEAN_EXPRESSION, ")") | IDENTIFIER | ("Scanln", "(", ")") ;
 
 IDENTIFIER = LETTER, { LETTER | DIGIT | "_" } ;
 
