@@ -1,5 +1,4 @@
 var Game int
-var z string = "x: "
 var player1_acao string
 var player2_acao string
 var player1_pontos int = 0
@@ -14,18 +13,18 @@ while Game > 0{
 		while player1_pontos < 46 && player2_pontos < 46{
 			player1_acao = Scanln()
 			if player1_acao == "venceu"{
-				player1_pontos = player1_pontos + 15
+				player1_pontos += 15
 			}
 			player2_acao = Scanln()
 			if player2_acao == "venceu"{
-				player2_pontos = player2_pontos + 15
+				player2_pontos += 15
 			}
 			Println(player1_pontos)
 			Println(player2_pontos)
 
 
 		}
-		if player1_pontos > 40{
+		if player1_pontos > 46{
 			player1_games = player1_games + 1
 		}else{
 			player2_games = player2_games + 1

@@ -4,7 +4,7 @@ PROGRAM = { STATEMENT };
 
 BLOCK = "{", "\n", { STATEMENT }, "}";
 
-STATEMENT = ( λ | ASSIGNMENT | PRINT | IF | FOR | VARDEC), "\n" ;
+STATEMENT = ( λ | ASSIGNMENT | PRINT | IF | ID | FOR | VARDEC), "\n" ;
 
 VARDEC = "var", IDENTIFIER, TYPE, (λ | ("=", BOOLEAN_EXPRESSION));
 
@@ -14,7 +14,7 @@ PRINT = "Println", "(", BOOLEAN_EXPRESSION, ")" ;
 
 IF = "if", BOOLEAN_EXPRESSION, BLOCK, (λ | ("else", BLOCK));
 
-GAME_LOOP = "game", ";", ASSIGNMENT, ASSIGNMENT, ";", "while", BOOLEAN_EXPRESSION, BLOCK ;
+WHILE = "while", BOOLEAN_EXPRESSION, BLOCK ;
 
 FOR = "for", ASSIGNMENT, ";", BOOLEAN_EXPRESSION, ";", ASSIGNMENT, BLOCK;
 
@@ -32,7 +32,7 @@ FACTOR = (("+" | "-" | "!"), FACTOR) | NUMBER | STRING | PLAYER_ACTIONS | ("(", 
 
 IDENTIFIER = LETTER, { LETTER | DIGIT | "_" } ;
 
-TYPE = "int" | "string" | "player" ;
+TYPE = "int" | "string";
 
 PLAYER_ACTIONS = "saque"|"voleio"|"top spin"|"slice"|"flat"|"venceu";
 

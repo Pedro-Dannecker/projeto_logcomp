@@ -24,6 +24,10 @@ class Tokenizer :
         tipo = ""
 
         if Tokenizer.posicao < len(Tokenizer.source)-1 and Tokenizer.source[Tokenizer.posicao] == "+":
+            if Tokenizer.posicao < len(Tokenizer.source)-1 and Tokenizer.source[Tokenizer.posicao+1] == "=":
+                Tokenizer.posicao += 2
+                Tokenizer.next = Token("MAIS IGUAL",0)
+                return Tokenizer.next
             Tokenizer.posicao += 1
             Tokenizer.next = Token("MAIS",0)
             return Tokenizer.next
@@ -288,7 +292,7 @@ class Parser :
     def parseFactor(_token : Token):
 
         token = _token
-        #print(token.tipo)
+        #print(token.tipo,"TIPO DO TOKEN")
         if token.tipo == "MAIS" :
             return UnOp("MAIS",[Parser.parseFactor(Parser.tokenizer.selectnext())])
         
@@ -356,6 +360,7 @@ class Parser :
     @staticmethod
     def BoolExpression(_token : Token):
         resultado = Parser.BoolTerm(_token)
+        #print("TOKEN no BOOL",_token.tipo,_token.valor)
         while Tokenizer.next.tipo == "OU":
             #print("to no ou")
             resultado = BinOp("OU",[resultado,Parser.BoolTerm(Parser.tokenizer.selectnext())])
@@ -451,7 +456,9 @@ class Parser :
             
         elif  token.tipo == "ID":
             #print(token.valor,token.tipo,"stat")
-            if Parser.tokenizer.selectnext().tipo == "IGUAL":
+            analise = Parser.tokenizer.selectnext()
+            #print(analise,analise.tipo,analise.valor)
+            if analise.tipo == "IGUAL":
                 #print(Tokenizer.next.valor,Tokenizer.next.tipo)
                 resultado = Assign("IGUAL",[Identifier(token.valor,[]), Parser.BoolExpression(Parser.tokenizer.selectnext())])
                 #print(Tokenizer.next.tipo,"tipoooo")
@@ -464,6 +471,21 @@ class Parser :
                 else:
                     print(Tokenizer.next.tipo,"tipo",Tokenizer.next.valor)
                     raise SyntaxError("ERRADO")
+                
+            elif analise.tipo == "MAIS IGUAL":
+                #print(Tokenizer.next.valor,Tokenizer.next.tipo,token.valor)
+                resultado = Assign("IGUAL",[Identifier(token.valor,[]), BinOp("MAIS",[Parser.BoolExpression(token),Parser.BoolExpression(Tokenizer.next)])])
+                #print(Tokenizer.next.tipo,"tipoooo")
+                if Tokenizer.next.tipo == "FIM":
+                    #Parser.tokenizer.selectnext()
+                    return resultado
+                elif Tokenizer.next.tipo == 'EOF':
+                    #print("eofffe")
+                    return resultado
+                else:
+                    print(Tokenizer.next.tipo,"tipo",Tokenizer.next.valor)
+                    raise SyntaxError("ERRADO")
+
                     
             else:
                 #print(Tokenizer.next.tipo)
